@@ -1,4 +1,3 @@
-// cron/cleanupBookedDates.js
 import cron from "node-cron";
 import dotenv from "dotenv";
 import Hotel from "../models/hotel.model.js";
@@ -12,7 +11,6 @@ cron.schedule(schedule, async () => {
     const today = new Date();
     today.setHours(0,0,0,0);
 
-    // Fetch only necessary fields
     const hotels = await Hotel.find({}, { bookedDates: 1, availability: 1 });
 
     for (const hotel of hotels) {
@@ -22,10 +20,9 @@ cron.schedule(schedule, async () => {
         if (!Array.isArray(range) || range.length === 0) return false;
         const last = new Date(range[range.length - 1]);
         last.setHours(0,0,0,0);
-        return last >= today; // keep only ranges whose checkout >= today
+        return last >= today;
       });
 
-      // Only save if changed
       if (updated.length !== hotel.bookedDates.length) {
         hotel.bookedDates = updated;
         hotel.availability = updated.length === 0;

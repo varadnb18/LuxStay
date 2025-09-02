@@ -44,18 +44,15 @@ app.use(cors({
   credentials: true
 }));
 
-
-
 await connectDB(process.env.MONGO_URI);
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api", wishlistRoutes);
 
-// Health check
+
 app.get("/", (req, res) => res.send("Plan My Stay API running"));
 
 const PORT = process.env.PORT || 5000;
