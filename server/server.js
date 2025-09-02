@@ -30,13 +30,22 @@ import hotelRoutes from "./routes/hotel.routes.js";
 import bookingRoutes from "./routes/booking.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 import wishlistRoutes from "./routes/wishlist.routes.js";
-import "./cron/cleanupBookedDates.js"; // start cron
+
+import "./cron/cleanupBookedDates.js"; 
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: [/^http:\/\/localhost:\d+$/], credentials: true }));
 
-// Connect DB
+app.use(cors({
+  origin: [
+   process.env.FRONTEND_URL, 
+    /^http:\/\/localhost:\d+$/    
+  ],
+  credentials: true
+}));
+
+
+
 await connectDB(process.env.MONGO_URI);
 
 // Routes
